@@ -1,1 +1,1 @@
-// export { default as ComponentName } from './ComponentName' 
+export { default as Chat } from './Chat' 

@@ -9,7 +9,7 @@ const io = require("socket.io")(server, {
     }
   });
 io.on('connection', socket => {
-
+    socket.join('room1');
     console.log(`${socket.id} connected`);
 
     // get total number of connections
@@ -20,6 +20,13 @@ io.on('connection', socket => {
     socket.broadcast.emit('admin-message', `A new friend has arrived!`)
     // send event to all Users
     io.emit('admin-message', `There is ${participantCount} x friend here now!`)
+
+
+    // *************************************************************************************
+    // HANDLE MESSAGES
+    socket.on('new-message', ({ username, message }) => {
+        io.in("room1").emit('incoming-message', { username, message });
+    })
 
     // *************************************************************************************
     // HANDLE USER ENTERS ROOM
