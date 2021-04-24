@@ -1,40 +1,16 @@
-// in App.js
-import io from "socket.io-client";
-import React, { useState, useEffect } from "react";
-import { Chat } from './components'
-import { addMessage } from './actions'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { Switch, Route } from 'react-router-dom';
+import { ChatRoom, ChatSetup } from './pages'
 
-const serverEndpoint = "http://localhost:3000";
-
-function App() {
-  const [socket, setSocket] = useState(null);
-  const messages = useSelector(state => state)
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    const socket = io(serverEndpoint);
-    setSocket({ socket });
-    socket.on('admin-message', msg => console.log(msg));
-    socket.on('incoming-message', ({ username, message }) => {
-      console.log(`${username} says: ${message}`);
-      dispatch(addMessage(username, message))
-    })
-    return () => {
-        socket.disconnect()
-    }
-  }, []);
-
-
-  const sendMessage = () => socket.socket.emit('new-message', {username: socket.socket.id, message: 'I know'});
-
+const App = () => {
 
   return (
-    <>
-    <div id="App">Hi</div>
-    <Chat messages={messages} sendMessage={sendMessage}/>
-    </>
-  )
-}
+      <Switch>
+        <Route exact path="/" render={() => <h1>Welcome</h1>} />
+        <Route exact path="/chat" component={ChatSetup} />
+        <Route path="/chat/:id" component={ChatRoom} />
+      </Switch>
+  );
+};
 
 export default App

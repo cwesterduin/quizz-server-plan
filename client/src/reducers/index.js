@@ -1,4 +1,4 @@
-const myReducer = (state = [{user: 'admin', message: 'hello'}], action) => {
+const myReducer = (state = [{user: 'admin', message: 'welcome!'}], action) => {
     switch (action.type) {
       case 'ADD_MESSAGE':
         return state.concat([action.payload])
