@@ -9,6 +9,7 @@
       "\\.(css|less|scss)$": "<rootDir>/__mocks__/styleMock.js"
     }
   },
+  "proxy": "http://localhost:3000",
   "scripts": {
     "test": "jest --watch --silent --verbose --setupFilesAfterEnv ./src/test/setupTests.js",
     "coverage": "jest --setupFilesAfterEnv ./src/test/setupTests.js --coverage --silent --watchAll=false",

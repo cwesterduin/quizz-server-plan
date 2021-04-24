@@ -7,8 +7,8 @@ const App = () => {
   return (
       <Switch>
         <Route exact path="/" render={() => <h1>Welcome</h1>} />
-        <Route exact path="/chat" component={ChatSetup} />
-        <Route path="/chat/:id" component={ChatRoom} />
+        <Route exact path="/game" component={ChatSetup} />
+        <Route path="/game/:id" component={ChatRoom} />
       </Switch>
   );
 };

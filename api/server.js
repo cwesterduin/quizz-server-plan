@@ -1,12 +1,13 @@
 const express = require("express")
-const app = require("express")();
-const server = require("http").createServer(app);
 const cors = require('cors');
+const app = express();
+app.use(express.json());
+app.use(cors());
+const server = require("http").createServer(app);
 const gamesController = require("./controllers/games")
 app.use('/games', gamesController)
 
-app.use(express.json());
-app.use(cors());
+
 const io = require("socket.io")(server, {
     cors: {
       origin: "*",

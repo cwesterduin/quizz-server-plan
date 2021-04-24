@@ -1,4 +1,5 @@
 const { init } = require("../initdb");
+const { ObjectId } = require('mongodb'); 
 
 class Game {
     constructor(data){
@@ -15,6 +16,20 @@ class Game {
                 resolve(games);
             } catch (err) {
                 reject(`Error retrieving games: ${err.message}`)
+            }
+        })
+    }
+
+    static findById(id){
+        return new Promise (async (resolve, reject) => {
+            try {
+                const db = await init();
+                const collection = await db.collection('games')
+                const game = await collection.findOne({ _id: ObjectId(id) })
+                console.log(game)
+                resolve(game);
+            } catch (err) {
+                reject(`Error retrieving game: ${err.message}`)
             }
         })
     }

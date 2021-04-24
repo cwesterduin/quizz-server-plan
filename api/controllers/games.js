@@ -12,6 +12,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/:id', async (req, res) => {
+    try {
+        const id = req.params.id
+        const game = await Game.findById(id)
+        res.status(200).json({data: game})
+    } catch(err) {
+        console.error(err);
+        res.status(500).json({ error: err })
+    }
+});
+
 router.post('/', async (req, res) => {
     try {
         const game = await Game.create()
