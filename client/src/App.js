@@ -9,6 +9,10 @@ function App() {
   useEffect(() => {
     const socket = io(serverEndpoint);
     setSocket({ socket });
+    socket.on('admin-message', msg => console.log(msg));
+    return () => {
+        socket.disconnect()
+    }
   }, []);
 
   return <div id="App">Hi</div>;

@@ -9,7 +9,8 @@ const io = require("socket.io")(server, {
     }
   });
 io.on('connection', socket => {
-    console.log("'Ello, who's this we got here?")
+
+    console.log(`${socket.id} connected`);
 
     // get total number of connections
     const participantCount = io.engine.clientsCount
@@ -70,8 +71,14 @@ io.on('connection', socket => {
     // HANDLE USER EXITS APP / DISCONNECTS
 
 
-    socket.on("disconnect", socket => {
-        console.log("K bye then");
+    socket.on("disconnect", () => {
+        console.log(`${socket.id} ${socket.handshake.address} disconnected`);
+        // get total number of connections
+        const newParticipantCount = io.engine.clientsCount
+        // send event to all others Users 
+        socket.broadcast.emit('admin-message', `A friend has left!`)
+        // send event to all Users
+        io.emit('admin-message', `There is ${newParticipantCount} x friend here now!`)
     });
 });
 
