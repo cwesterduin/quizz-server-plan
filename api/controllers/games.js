@@ -26,7 +26,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const game = await Game.create()
-        res.status(200).json({data: game.ops[0]._id})
+        res.status(200).json({data: game})
     } catch(err) {
         console.error(err);
         res.status(500).json({ error: err })

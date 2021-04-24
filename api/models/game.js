@@ -1,5 +1,6 @@
 const { init } = require("../initdb");
 const { ObjectId } = require('mongodb'); 
+const axios = require('axios')
 
 class Game {
     constructor(data){
@@ -38,7 +39,8 @@ class Game {
         return new Promise (async (resolve, reject) => {
             try {
                 const db = await init();
-                const newGame = db.collection('games').insertOne({})
+                let { data } = await axios.get('https://opentdb.com/api.php?amount=10&category=23&difficulty=medium&type=boolean')
+                const newGame = db.collection('games').insertOne({quizz: data})
                 resolve(newGame);
             } catch (err) {
                 reject(`Error retrieving games: ${err.message}`)
