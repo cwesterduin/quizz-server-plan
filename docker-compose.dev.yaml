@@ -4,8 +4,8 @@ services:
     ports: 
       - 3000:3000
     environment: 
-      - DB_NAME=db
-      - DB_CONNECTION=mongodb://user:password@db:27017
+      - DB_NAME=dev_db
+      - DB_CONNECTION=mongodb://user:password@dev_db:27017
       - NODE_ENV=development
     depends_on:
       - db
