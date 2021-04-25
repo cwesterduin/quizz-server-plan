@@ -16,12 +16,20 @@ const io = require("socket.io")(server, {
   });
 io.on('connection', socket => {
 
-    socket.join('room1');
-    io.to("room1").emit('admin-message', `${socket.id} has joined`)
 
-    socket.on('new-message', ({ username, message }) => {
-        io.in("room1").emit('incoming-message', { username, message });
+    socket.on('create', (room) => {
+        console.log('created room', room)
+
+        socket.join(room);
+        io.to(room).emit('admin-message', `${socket.id} has joined`)
+
+        socket.on('new-message', ({ username, message }) => {
+            io.in(room).emit('incoming-message', { username, message });
+        })
+
     })
+
+
 
     // *************************************************************************************
     // HANDLE USER ENTERS ROOM

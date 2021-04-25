@@ -17,6 +17,7 @@ function ChatRoom() {
   useEffect(() => {
     const socket = io(serverEndpoint);
     setSocket({ socket });
+    socket.emit('create', id);
     socket.on('admin-message', msg => {
       dispatch(addMessage('admin', msg))
     })
