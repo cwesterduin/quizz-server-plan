@@ -16,28 +16,26 @@ const io = require("socket.io")(server, {
   });
 io.on('connection', socket => {
 
-
-    socket.on('create', (room) => {
-        console.log('created room', room)
-
-        socket.join(room);
-        io.to(room).emit('admin-message', `${socket.id} has joined`)
-
+    socket.on('create', (roomId) => {
+        console.log('created room', roomId)
+        socket.join(roomId);
+        console.log(io.sockets.adapter.rooms.get(roomId))
+        io.to(roomId).emit('admin-message', `${socket.id} has joined`)
+        io.to(roomId).emit('count', io.sockets.adapter.rooms.get(roomId).size)
         socket.on('new-message', ({ username, message }) => {
-            io.in(room).emit('incoming-message', { username, message });
+            io.in(roomId).emit('incoming-message', { username, message });
         })
-
-    })
-
-
-
     // *************************************************************************************
     // HANDLE USER ENTERS ROOM
-
     socket.on("disconnect", () => {
-        console.log(`${socket.id} ${socket.handshake.address} disconnected`);
-        io.to("room1").emit('admin-message', `${socket.id} has left`)
+        console.log(io.sockets.adapter.rooms.get(roomId))
+        io.to(roomId).emit('admin-message', `${socket.id} has left`)
+        io.to(roomId).emit('count', io.sockets.adapter.rooms.get(roomId).size)
     });
+
+})
+
+
 });
 
 module.exports = server
