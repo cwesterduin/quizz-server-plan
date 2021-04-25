@@ -44,13 +44,13 @@ function ChatRoom() {
       setSocket({ socket });
       socket.emit("create", id);
 
-      socket.on("admin-message", (msg) => {
-        dispatch(addMessage("admin", msg));
-      });
-
       socket.on("count", (count) => {
         setCount(count)
       })
+
+      socket.on("admin-message", (msg) => {
+        dispatch(addMessage("admin", msg));
+      });
 
       socket.on("incoming-message", ({ username, message }) => {
         dispatch(addMessage(username, message));
