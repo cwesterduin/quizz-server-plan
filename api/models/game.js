@@ -5,6 +5,7 @@ const axios = require('axios')
 class Game {
     constructor(data){
         this.id = data._id
+        this.quizz = data.quizz
     }
 
     static get all(){
@@ -12,7 +13,7 @@ class Game {
             try {
                 const db = await init();
                 const dbData = await db.collection('games').find({}).toArray()
-                const games = dbData.map(g => new Game(g))
+                const games = dbData.map(g => ({id: g._id}))
                 if (!games.length) { throw new Error('No games found')}
                 resolve(games);
             } catch (err) {
